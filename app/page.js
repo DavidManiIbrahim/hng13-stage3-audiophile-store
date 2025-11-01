@@ -2,6 +2,11 @@
 import React from 'react';
 import { ShoppingCart, ChevronRight } from 'lucide-react';
 import Link from "next/link"
+// import Headphone from "@/public/assets/Bitmap-1.png"
+
+
+
+
 export default function AudiophileSite() {
   return (
     <div className="min-h-screen bg-white">
@@ -10,10 +15,10 @@ export default function AudiophileSite() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="text-xl font-bold tracking-wider">audiophile</div>
           <div className="hidden md:flex space-x-8 text-sm">
-            <Link href="#" className="hover:text-orange-500 transition">HOME</Link>
-            <Link href="#" className="hover:text-orange-500 transition">HEADPHONES</Link>
-            <Link href="#" className="hover:text-orange-500 transition">SPEAKERS</Link>
-            <Link href="#" className="hover:text-orange-500 transition">EARPHONES</Link>
+            <Link href="/" className="hover:text-orange-500 transition">HOME</Link>
+            <Link href="/pages/headphones/" className="hover:text-orange-500 transition">HEADPHONES</Link>
+            <Link href="/pages/speakers/" className="hover:text-orange-500 transition">SPEAKERS</Link>
+            <Link href="/pages/earphones/" className="hover:text-orange-500 transition">EARPHONES</Link>
           </div>
           <button className="hover:text-orange-500 transition">
             <ShoppingCart size={20} />
@@ -22,7 +27,7 @@ export default function AudiophileSite() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-black text-white py-20 px-6">
+      <section className="bg-black text-white py-20 px-6 hero">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-gray-400 text-sm tracking-widest mb-4">NEW PRODUCT</p>
@@ -36,13 +41,14 @@ export default function AudiophileSite() {
               SEE PRODUCT
             </button>
           </div>
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&h=500&fit=crop" 
+              // src={Headphone} 
+             
               alt="XX99 Mark II Headphones"
               className="w-full max-w-md object-contain"
             />
-          </div>
+          </div> */}
         </div>
       </section>
 
