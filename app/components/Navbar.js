@@ -10,9 +10,9 @@ export default function Navbar() {
         </Link>
         <ul className="hidden md:flex gap-8 text-sm uppercase tracking-widest">
           <li><Link href="/">Home</Link></li>
-          <li><Link href="/headphones">Headphones</Link></li>
-          <li><Link href="/speakers">Speakers</Link></li>
-          <li><Link href="/earphones">Earphones</Link></li>
+          <li><Link href="/pages/headphones">Headphones</Link></li>
+          <li><Link href="/pages/speakers">Speakers</Link></li>
+          <li><Link href="/pages/earphones">Earphones</Link></li>
         </ul>
         <ShoppingCart size={22} className="cursor-pointer hover:text-orange-500" />
       </div>
