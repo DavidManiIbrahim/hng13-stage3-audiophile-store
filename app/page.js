@@ -2,9 +2,10 @@
 import React from 'react';
 import { ShoppingCart, ChevronRight } from 'lucide-react';
 import Link from "next/link"
-// import Headphone from "@/public/assets/Bitmap-1.png"
+import Category from './components/category';
 import Nav from "@/app/components/Navbar"
 import Footer from "@/app/components/Footer"
+import About from './components/About';
 
 
 
@@ -18,7 +19,11 @@ export default function AudiophileSite() {
       {/* Hero Section */}
       <section className="bg-black text-white py-20 px-6 hero">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
+          <div className="
+  // bg-[url('/assets/Bitmap.png')] sm:hidden
+  md:bg-[url('/assets/Bitmap-1.png')] md:hidden
+  bg-cover bg-center h-screen
+">
             <p className="text-gray-400 text-sm tracking-widest mb-4">NEW PRODUCT</p>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               XX99 MARK II<br />HEADPHONES
@@ -30,40 +35,18 @@ export default function AudiophileSite() {
               SEE PRODUCT
             </button>
           </div>
-          {/* <div className="flex justify-center">
+           {/* <div className="flex justify-center">
             <img 
-              // src={Headphone} 
-             
+              src="/assets/Bitmap-1.png" 
               alt="XX99 Mark II Headphones"
               className="w-full max-w-md object-contain"
             />
-          </div> */}
+          </div>  */}
         </div>
       </section>
 
       {/* Category Cards */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto text-bg-dark object-fit-contain grid md:grid-cols-3 gap-8">
-          {[
-            { name: 'HEADPHONES', img: '/assets/image-removebg-preview(41)-1.png' },
-            { name: 'SPEAKERS', img: '/assets/image-removebg-preview(38).png' },
-            // { name: 'EARPHONES', img: '/assets/Group 4.png' }
-            { name: 'EARPHONES', img: '/assets/image-removebg-preview(42).png' }
-          ].map((category, idx) => (
-            <div key={idx} className="bg-white cursor-pointer  p-8 text-center hover:shadow-lg transition group">
-              <img 
-                src={category.img} 
-                alt={category.name}
-                className="w-50 h-50 mx-auto mb-6 "
-              />
-              <h3 className="font-bold text-sm text-gray-900 text-xl mb-3">{category.name}</h3>
-              <button className="text-sm text-gray-600 group-hover:text-orange-500 transition flex items-center justify-center mx-auto">
-                SHOP <ChevronRight size={16} className="ml-1" />
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+     <Category />
 
       {/* ZX9 Speaker Feature */}
       <section className="py-20 px-6">
@@ -134,26 +117,7 @@ export default function AudiophileSite() {
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl text-black font-bold mb-6">
-              BRINGING YOU THE<br />
-              <span className="text-orange-500">BEST </span> AUDIO GEAR
-            </h2>
-            <p className="text-gray-600 leading-relaxed">
-              Located at the heart of New York City, Audiophile is the premier store for high end headphones, earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration room available for you to browse and experience a wide range of our products. Stop by our store to meet some of the fantastic people who make Audiophile the best place to buy your portable audio equipment.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <img 
-              src="/assets/Bitmap-2.png" 
-              alt="Person with headphones"
-              className="w-full max-w-lg rounded-lg object-cover"
-            />
-          </div>
-        </div>
-      </section>
+      <About />
 
       {/* Footer */}
       <Footer />
