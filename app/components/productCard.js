@@ -1,3 +1,4 @@
+"use clieent"
 import Image from "next/image";
 
 export default function ProductCard({ image, newProduct, title, description, reverse }) {

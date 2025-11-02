@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto text-center md:text-left space-y-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <Link href="/" className="text-2xl font-bold">audiophile</Link>
-          <ul className="flex gap-2 sm:inline text-sm uppercase tracking-widest">
+          <ul className="flex md:flex gap-2 sm:inline text-sm uppercase tracking-widest">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/pages/headphones">Headphones</Link></li>
             <li><Link href="/pages/speakers">Speakers</Link></li>

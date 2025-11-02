@@ -19,11 +19,7 @@ export default function AudiophileSite() {
       {/* Hero Section */}
       <section className="bg-black text-white py-20 px-6 hero">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="
-  // bg-[url('/assets/Bitmap.png')] sm:hidden
-  md:bg-[url('/assets/Bitmap-1.png')] md:hidden
-  bg-cover bg-center h-screen
-">
+          <div>
             <p className="text-gray-400 text-sm tracking-widest mb-4">NEW PRODUCT</p>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               XX99 MARK II<br />HEADPHONES
