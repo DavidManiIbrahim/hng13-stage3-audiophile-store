@@ -1,5 +1,9 @@
+"use client"
 import React, { useState } from 'react';
 import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
+import Navbar from '@/app/components/Navbar';
+import Category from '@/app/components/category';
+import About from '@/app/components/About';
 
 export default function AudiophileXX59HeadphonesPage() {
   const [quantity, setQuantity] = useState(1);
@@ -10,27 +14,10 @@ export default function AudiophileXX59HeadphonesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-black border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-between h-20">
-            <div className="text-white text-2xl font-bold lowercase tracking-tight">
-              audiophile
-            </div>
-            <nav className="hidden md:flex gap-10 text-white text-xs font-bold tracking-widest">
-              <a href="#" className="hover:text-orange-400 transition-colors">HOME</a>
-              <a href="#" className="hover:text-orange-400 transition-colors">HEADPHONES</a>
-              <a href="#" className="hover:text-orange-400 transition-colors">SPEAKERS</a>
-              <a href="#" className="hover:text-orange-400 transition-colors">EARPHONES</a>
-            </nav>
-            <button className="text-white hover:text-orange-400 transition-colors">
-              <ShoppingCart size={24} strokeWidth={1.5} />
-            </button>
-          </div>
-        </div>
-      </header>
+    <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 lg:px-12">
+      <main className="max-w-7xl text-black mx-auto px-6 lg:px-12">
         {/* Breadcrumb */}
         <div className="py-8">
           <button className="text-gray-500 text-sm hover:text-gray-700 transition-colors">
@@ -41,9 +28,9 @@ export default function AudiophileXX59HeadphonesPage() {
         {/* Product Section */}
         <section className="grid lg:grid-cols-2 gap-16 py-8 mb-20">
           {/* Product Image */}
-          <div className="bg-gray-100 rounded-lg flex items-center justify-center p-12 lg:p-20">
+          <div className="bg-gray-100 rounded-lg flex items-center justify-center p-5 lg:p-5">
             <img 
-              src="https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800&h=800&fit=crop&q=80" 
+              src="/assets/image-removebg-preview(48).png" 
               alt="XX59 Headphones"
               className="w-full max-w-sm object-contain"
             />
@@ -67,7 +54,7 @@ export default function AudiophileXX59HeadphonesPage() {
               <div className="flex items-center bg-gray-100">
                 <button 
                   onClick={decrementQuantity}
-                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors"
+                  className="px-5 cursor-pointer py-4 text-gray-500 hover:text-orange-400 transition-colors"
                   aria-label="Decrease quantity"
                 >
                   <Minus size={14} strokeWidth={3} />
@@ -77,20 +64,20 @@ export default function AudiophileXX59HeadphonesPage() {
                 </span>
                 <button 
                   onClick={incrementQuantity}
-                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors"
+                  className="px-5 cursor-pointer py-4 text-gray-500 hover:text-orange-400 transition-colors"
                   aria-label="Increase quantity"
                 >
                   <Plus size={14} strokeWidth={3} />
                 </button>
               </div>
-              <button className="bg-orange-400 hover:bg-orange-500 text-white px-8 font-bold text-xs tracking-widest uppercase transition-colors">
+              <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-8 font-bold text-xs tracking-widest uppercase transition-colors">
                 Add to Cart
               </button>
             </div>
           </div>
         </section>
 
-        {/* Features and In The Box */}
+        {/* Features */}
         <section className="grid lg:grid-cols-5 gap-16 lg:gap-24 py-16 mb-20">
           {/* Features */}
           <div className="lg:col-span-3">
@@ -113,7 +100,7 @@ export default function AudiophileXX59HeadphonesPage() {
             </div>
           </div>
 
-          {/* In The Box */}
+         
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold mb-8 tracking-wider uppercase">In the Box</h2>
             <div className="space-y-3">
@@ -143,7 +130,7 @@ export default function AudiophileXX59HeadphonesPage() {
             <div className="lg:col-span-2 space-y-6 lg:space-y-8">
               <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
                 <img 
-                  src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&h=450&fit=crop&q=80" 
+                  src="/assets/Bitmap-1.png" 
                   alt="Person listening to music"
                   className="w-full h-full object-cover"
                 />
@@ -186,7 +173,7 @@ export default function AudiophileXX59HeadphonesPage() {
                   />
                 </div>
                 <h3 className="font-bold tracking-widest text-2xl uppercase">{product.name}</h3>
-                <button className="bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 font-bold text-xs tracking-widest uppercase transition-colors">
+                <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-8 py-4 font-bold text-xs tracking-widest uppercase transition-colors">
                   See Product
                 </button>
               </div>
@@ -195,60 +182,10 @@ export default function AudiophileXX59HeadphonesPage() {
         </section>
 
         {/* Categories */}
-        <section className="py-16 mb-20">
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-8">
-            {[
-              { name: 'Headphones', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop&q=80' },
-              { name: 'Speakers', img: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=200&fit=crop&q=80' },
-              { name: 'Earphones', img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&h=200&fit=crop&q=80' }
-            ].map((category, i) => (
-              <div key={i} className="bg-gray-100 rounded-lg text-center pt-20 pb-6 relative">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/3 w-40 h-40">
-                  <img 
-                    src={category.img} 
-                    alt={category.name} 
-                    className="w-full h-full object-contain drop-shadow-lg"
-                  />
-                </div>
-                <h3 className="font-bold tracking-wider text-lg uppercase mb-4 mt-12">
-                  {category.name}
-                </h3>
-                <button className="text-gray-500 hover:text-orange-400 text-sm font-bold tracking-wider uppercase transition-colors inline-flex items-center gap-2 group">
-                  Shop
-                  <ChevronRight size={16} className="text-orange-400 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Category />
 
-        {/* Banner */}
-        <section className="py-16 mb-32">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8 lg:order-1">
-              <h2 className="text-4xl lg:text-5xl font-bold tracking-wide uppercase leading-tight">
-                Bringing You The<br />
-                <span className="text-orange-400">Best Audio Gear</span>
-              </h2>
-              <p className="text-gray-600 text-base leading-relaxed">
-                Located at the heart of New York City, Audiophile is the premier 
-                store for high end headphones, earphones, speakers, and audio 
-                accessories. We have a large showroom and luxury demonstration 
-                rooms available for you to browse and experience a wide range of 
-                our products. Stop by our store to meet some of the fantastic 
-                people who make Audiophile the best place to buy your portable 
-                audio equipment.
-              </p>
-            </div>
-            <div className="rounded-lg overflow-hidden lg:order-2">
-              <img 
-                src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&h=800&fit=crop&q=80" 
-                alt="Best Audio Gear"
-                className="w-full object-cover aspect-square"
-              />
-            </div>
-          </div>
-        </section>
+        {/* About */}
+        <About />
       </main>
 
       {/* Footer */}

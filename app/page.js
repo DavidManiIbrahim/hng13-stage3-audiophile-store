@@ -80,7 +80,7 @@ export default function AudiophileSite() {
       </section>
 
       {/* ZX7 Speaker Feature */}
-      <section className="px-6 pb-20">
+      <section className="px-6 text-white pb-20">
         <div className="max-w-7xl mx-auto">
           <div className="bg-gray-200 rounded-lg overflow-hidden relative h-80">
             <img 
@@ -112,12 +112,14 @@ export default function AudiophileSite() {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="bg-gray-100 rounded-lg flex items-center px-12">
+          <div className="bg-gray-100 h-80 rounded-lg flex items-center px-12">
             <div>
               <h2 className="text-3xl text-black font-bold mb-6">YX1 EARPHONES</h2>
+              <Link href='/pages/earphone/'>
               <button className="border-2 cursor-pointer border-black text-black hover:bg-black hover:text-white px-8 py-3 font-semibold transition">
                 SEE PRODUCT
               </button>
+              </Link>
             </div>
           </div>
         </div>

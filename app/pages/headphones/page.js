@@ -24,6 +24,7 @@ export default function HeadphonesPage() {
       description:
         "The new XX99 Mark II headphones are the pinnacle of pristine audio. It redefines your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.",
       reverse: false,
+      href: '/pages/categories/headphones/xx99mark2',
     },
     {
       id: 2,
@@ -32,6 +33,7 @@ export default function HeadphonesPage() {
       description:
         "As the gold standard for headphones, the classic XX99 Mark I offers detailed and accurate sound reproduction for audiophiles, mixing engineers, and music enthusiasts alike.",
       reverse: true,
+      href: '/pages/categories/headphones/xx99mark1',
     },
     {
       id: 3,
@@ -40,6 +42,7 @@ export default function HeadphonesPage() {
       description:
         "Enjoy your audio almost anywhere and customize it to your specific tastes with the XX59 headphones. The stylish yet durable design makes them a perfect companion at home or on the go.",
       reverse: false,
+      href: '/pages/categories/headphones/xx59',
     },
   ];
 
@@ -82,9 +85,11 @@ export default function HeadphonesPage() {
               )}
               <h2 className="text-3xl md:text-4xl font-bold leading-tight">{p.title}</h2>
               <p className="text-gray-600">{p.description}</p>
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 uppercase tracking-wider text-sm rounded-md transition">
+              <Link href={p.href}>
+              <button className="bg-orange-500 cursor-pointer hover:bg-orange-600 text-white px-8 py-3 uppercase tracking-wider text-sm rounded-md transition">
                 See Product
               </button>
+            </Link>
             </div>
           </div>
         ))}

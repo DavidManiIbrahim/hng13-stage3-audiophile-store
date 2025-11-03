@@ -1,7 +1,11 @@
+"use client"
 import { useState } from 'react';
+import Link from 'next/link'
 import { ShoppingCart, Facebook, Twitter, Instagram } from 'lucide-react';
 import About from '@/app/components/About';
 import Footer from '@/app/components/Footer';
+import Navbar from '@/app/components/Navbar';
+import Category from '@/app/components/category';
 
 export default function YX1ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -10,28 +14,24 @@ export default function YX1ProductPage() {
   const decrementQuantity = () => setQuantity(q => Math.max(1, q - 1));
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-black text-white py-5 px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold">audiophile</h1>
-          <nav className="flex gap-8 text-sm font-bold tracking-wider">
-            <a href="#" className="hover:text-orange-500">HOME</a>
-            <a href="#" className="hover:text-orange-500">HEADPHONES</a>
-            <a href="#" className="hover:text-orange-500">SPEAKERS</a>
-            <a href="#" className="hover:text-orange-500">EARPHONES</a>
-          </nav>
-          <ShoppingCart className="w-6 h-6 cursor-pointer hover:text-orange-500" />
-        </div>
-      </header>
+    <div className="min-h-screen text-black bg-white">
+      {/* Navbar */}
+      <Navbar />
 
       <div className="max-w-7xl mx-auto px-8 py-12">
-        <button className="text-gray-500 text-sm mb-8 hover:text-black">Go Back</button>
+        <Link href='/'>
+        <button className="text-gray-500 cursor-pointer text-sm mb-8 hover:text-black">Go Back</button>
+        </Link>
 
         {/* Product Section */}
         <div className="grid md:grid-cols-2 gap-16 mb-24">
           <div className="bg-gray-100 rounded-lg flex items-center justify-center p-12">
-            <div className="w-64 h-64 bg-gray-800 rounded-full"></div>
+               <img 
+              src="/assets/Group 4.png" 
+              alt="YX1 EARPHONES"
+              className="w-full max-w-sm object-contain"
+            />
+          
           </div>
 
           <div className="flex flex-col justify-center">
@@ -44,18 +44,18 @@ export default function YX1ProductPage() {
 
             <div className="flex gap-4">
               <div className="flex items-center gap-4 bg-gray-100 px-6 py-3">
-                <button onClick={decrementQuantity} className="text-gray-400 hover:text-orange-500 font-bold">-</button>
+                <button onClick={decrementQuantity} className="text-gray-400 cursor-pointer hover:text-orange-500 font-bold">-</button>
                 <span className="font-bold w-8 text-center">{quantity}</span>
-                <button onClick={incrementQuantity} className="text-gray-400 hover:text-orange-500 font-bold">+</button>
+                <button onClick={incrementQuantity} className="text-gray-400 cursor-pointer hover:text-orange-500 font-bold">+</button>
               </div>
-              <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 tracking-wider">
+              <button className="bg-orange-500 cursor-pointer hover:bg-orange-600 text-white font-bold px-8 py-3 tracking-wider">
                 ADD TO CART
               </button>
             </div>
           </div>
         </div>
 
-        {/* Features and In The Box */}
+        {/* Features */}
         <div className="grid md:grid-cols-2 gap-16 mb-24">
           <div>
             <h3 className="text-2xl font-bold mb-6">FEATURES</h3>
@@ -95,29 +95,51 @@ export default function YX1ProductPage() {
         </div>
 
         {/* Product Gallery */}
-        <div className="grid grid-cols-2 gap-4 mb-24">
-          <div className="space-y-4">
-            <div className="bg-gray-900 rounded-lg h-64"></div>
-            <div className="bg-gray-900 rounded-lg h-64"></div>
+        <section className="py-16 mb-20">
+          <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
+            <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+              <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
+                <img 
+                  src="/assets/Bitmap (9).png" 
+                  alt="Speaker close-up"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
+                <img 
+                  src="/assets/Bitmap (8).png" 
+                  alt="Room setup"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-3 bg-gray-100 rounded-lg overflow-hidden aspect-[4/3] lg:aspect-auto">
+              <img 
+                src="/assets/Bitmap (7).png" 
+                alt="Speaker pair"
+                className="w-full object-cover"
+              />
+            </div>
           </div>
-          <div className="bg-gray-900 rounded-lg"></div>
-        </div>
+        </section>
 
-        {/* You May Also Like */}
+       
         <div className="mb-24">
           <h3 className="text-3xl font-bold text-center mb-12">YOU MAY ALSO LIKE</h3>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 object-fit-contain gap-8">
             {[
-              { name: 'XX99 MARK I', image: 'headphones' },
-              { name: 'XX59', image: 'headphones' },
-              { name: 'ZX9 SPEAKER', image: 'speaker' }
+              { name: 'XX99 MARK I', image: '/assets/image-removebg-preview(41)-1.png' },
+              { name: 'XX59', image: '/assets/image-removebg-preview(48).png' },
+              { name: 'ZX9 SPEAKER', image: '/assets/image-removebg-preview(38).png' }
             ].map((product, index) => (
               <div key={index} className="text-center">
                 <div className="bg-gray-100 rounded-lg p-8 mb-6 h-64 flex items-center justify-center">
-                  <div className="text-6xl">🎧</div>
+                  <div className="text-6xl object-fit-contain">
+                    <img className='h-50' src={product.image} />
+                  </div>
                 </div>
                 <h4 className="font-bold mb-4">{product.name}</h4>
-                <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 text-sm tracking-wider">
+                <button className="bg-orange-500 cursor-pointer hover:bg-orange-600 text-white font-bold px-6 py-3 text-sm tracking-wider">
                   SEE PRODUCT
                 </button>
               </div>
@@ -125,25 +147,13 @@ export default function YX1ProductPage() {
           </div>
         </div>
 
-        {/* Category Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-24">
-          {[
-            { name: 'HEADPHONES', icon: '🎧' },
-            { name: 'SPEAKERS', icon: '🔊' },
-            { name: 'EARPHONES', icon: '⚫' }
-          ].map((category, index) => (
-            <div key={index} className="bg-gray-100 rounded-lg p-8 text-center">
-              <div className="text-6xl mb-4">{category.icon}</div>
-              <h4 className="font-bold mb-2">{category.name}</h4>
-              <button className="text-sm text-gray-600 hover:text-orange-500 font-bold">
-                SHOP →
-              </button>
-            </div>
-          ))}
-        </div>
+        {/* Category */}
+       <Category />
 
         {/* About */}
        <About/>
+
+      </div>
 
       {/* Footer */}
       <Footer />

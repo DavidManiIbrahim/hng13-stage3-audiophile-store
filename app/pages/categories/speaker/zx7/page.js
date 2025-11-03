@@ -169,7 +169,7 @@ export default function Audiophilezx7SpeakerPage() {
           </div>
         </section>
 
-        {/* You May Also Like */}
+       
         <section className="py-16 mb-20">
           <h2 className="text-3xl font-bold text-center mb-16 tracking-wider uppercase">
             You May Also Like
