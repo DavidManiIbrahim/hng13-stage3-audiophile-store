@@ -3,8 +3,8 @@ import React from 'react';
 import { ShoppingCart, ChevronRight, Router } from 'lucide-react';
 import Link from "next/link"
 import Category from './components/category';
-import Nav from "@/app/components/Navbar"
-import Footer from "@/app/components/Footer"
+import Nav from "./components/Navbar"
+import Footer from "./components/Footer"
 import About from './components/About';
 
 

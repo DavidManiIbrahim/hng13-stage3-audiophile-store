@@ -2,10 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShoppingCart, Facebook, Twitter, Instagram } from "lucide-react";
-import Nav from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
-import About from "@/app/components/About";
-import Category from "@/app/components/category";
+import Nav from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import About from "../../components/About";
+import Category from "../../components/category";
 
 
 export default function HeadphonesPage() {
