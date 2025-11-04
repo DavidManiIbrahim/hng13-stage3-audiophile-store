@@ -22,21 +22,21 @@ export default function CheckoutPage(): React.ReactElement {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'e-money'>('cash');
   const [formData, setFormData] = useState<FormData>({
-    name: 'Alexei Ward',
-    email: 'alexei@gmail.com',
-    phone: '+1 202-555-0136',
-    address: '1137 Williams Avenue',
-    zipCode: '10001',
-    city: 'New York',
-    country: 'United States',
-    eMoneyNumber: '238521993',
-    eMoneyPin: '6891'
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    zipCode: '',
+    city: '',
+    country: '',
+    eMoneyNumber: '',
+    eMoneyPin: ''
   });
 
   const cartItems = [
-    { id: 1, name: 'XX99 MK II', price: 2999, quantity: 1, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100' },
-    { id: 2, name: 'XX59', price: 899, quantity: 2, image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=100' },
-    { id: 3, name: 'YX1', price: 599, quantity: 1, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100' }
+    { id: 1, name: 'XX99 MK II', price: 2999, quantity: 1, image: '/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg' },
+    { id: 2, name: 'XX59', price: 899, quantity: 2, image: '/assets/product-xx59-headphones/desktop/image-product.jpg' },
+    { id: 3, name: 'YX1', price: 599, quantity: 1, image: '/assets/product-yx1-earphones/desktop/image-product.jpg' }
   ];
 
   const total = 5396;
@@ -50,7 +50,7 @@ export default function CheckoutPage(): React.ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen text-black bg-gray-50">
       {/* Navigation */}
      <Navbar />
 
@@ -205,9 +205,7 @@ export default function CheckoutPage(): React.ReactElement {
 
               {paymentMethod === 'cash' && (
                 <div className="flex items-start space-x-4 bg-gray-50 p-6 rounded">
-                  <svg className="w-12 h-12 text-orange-500 flex-shrink-0" viewBox="0 0 48 48" fill="currentColor">
-                    <path d="M38 8H10c-2.21 0-4 1.79-4 4v24c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V12c0-2.21-1.79-4-4-4zm-14 26c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-                  </svg>
+                  {/* <img src="" alt="" /> */}
                   <p className="text-sm text-gray-600">
                     The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.
                   </p>
@@ -273,8 +271,8 @@ export default function CheckoutPage(): React.ReactElement {
       {/* Success Modal */}
       {showModal && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowModal(false)} />
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-8 max-w-md w-full z-50">
+          <div className="fixed inset-0 bg-transparent bg-opacity-50 z-40" onClick={() => setShowModal(false)} />
+          <div className="fixed top-1/2 left-1/2 border-1 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-8 max-w-md w-full z-50">
             <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mb-6">
               <Check size={32} className="text-white" />
             </div>

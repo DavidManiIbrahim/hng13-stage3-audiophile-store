@@ -20,7 +20,7 @@ export default function SpeakersCategory(): React.ReactElement {
   const products = [
     {
       id: 1,
-      href: '/pages/categories/speakers/zx9',
+      href: '/pages/categories/speaker/zx9',
       name: 'ZX9 SPEAKER',
       new: true,
       description: 'Upgrade your sound system with the all new ZX9 active speaker. It\'s a bookshelf speaker system that offers truly wireless connectivity -- creating new possibilities for more pleasing and practical audio setups.',
@@ -28,7 +28,7 @@ export default function SpeakersCategory(): React.ReactElement {
     },
     {
       id: 2,
-      href: '/pages/categories/speakers/zx7',
+      href: '/pages/categories/speaker/zx7',
       name: 'ZX7 SPEAKER',
       new: false,
       description: 'Stream high quality sound wirelessly with minimal loss. The ZX7 bookshelf speaker uses high-end audiophile components that represents the top of the line powered speakers for home or studio use.',
