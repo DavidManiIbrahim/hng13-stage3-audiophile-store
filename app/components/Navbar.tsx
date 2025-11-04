@@ -1,47 +1,34 @@
 "use client"
 import { useState } from 'react';
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { ShoppingCart, Menu, X, Plus, Minus } from "lucide-react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'XX99 MK II',
-      price: 2999,
-      quantity: 1,
-      image: "/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg"
-    },
-    {
-      id: 2,
-      name: 'XX59',
-      price: 899,
-      quantity: 2,
-      image: "/assets/product-xx59-headphones/desktop/image-product.jpg"
-    },
-    {
-      id: 3,
-      name: 'YX1',
-      price: 599,
-      quantity: 1,
-      image: "/assets/product-yx1-earphones/desktop/image-product.jpg"
-    }
-  ]);
+  
 
-  const updateQuantity = (id, delta) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
+  const { user } = useUser();
+  const userId = user?.id || "anonymous";
+  
+  // Fetch cart items from Convex
+  const cartItems = useQuery(api.cart.getCartItems, { userId }) || [];
+  
+  // Mutations
+  const updateQuantity = useMutation(api.cart.updateQuantity);
+  const removeAllItems = useMutation(api.cart.removeAllItems);
+
+  const handleUpdateQuantity = (cartItemId: Id<"cartItems">, currentQuantity: number, delta: number) => {
+    const newQuantity = Math.max(1, currentQuantity + delta);
+    updateQuantity({ cartItemId, quantity: newQuantity });
   };
 
-  const removeAll = () => {
-    setCartItems([]);
+  const handleRemoveAll = () => {
+    removeAllItems({ userId });
   };
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -68,24 +55,29 @@ export default function Navbar() {
             <li><Link href="/pages/earphone" className="hover:text-orange-600 cursor-pointer">Earphones</Link></li>
           </ul>
           
-          <button onClick={() => setIsCartOpen(!isCartOpen)}>
+          <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative">
             <ShoppingCart size={22} className="cursor-pointer hover:text-orange-500" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0  text-white bg-transparent bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
+        <div className="fixed inset-0 text-white bg-transparent bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
           <div 
-            className="bg-black text- w-64 h-full shadow-2xl"
+            className="bg-black w-64 h-full shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6">
               <div className="flex bg-black justify-between items-center mb-8">
                 <h2 className="text-xl font-bold text-white">Menu</h2>
                 <button onClick={() => setIsMobileMenuOpen(false)}>
-                  <X size={24} className="text-black hover:text-orange-500" />
+                  <X size={24} className="text-white hover:text-orange-500" />
                 </button>
               </div>
               
@@ -145,7 +137,7 @@ export default function Navbar() {
                   CART ({cartItems.length})
                 </h2>
                 <button
-                  onClick={removeAll}
+                  onClick={handleRemoveAll}
                   className="text-gray-500 hover:text-gray-700 text-sm underline"
                 >
                   Remove all
@@ -157,7 +149,7 @@ export default function Navbar() {
                   <p className="text-gray-500 text-center py-8">Your cart is empty</p>
                 ) : (
                   cartItems.map(item => (
-                    <div key={item.id} className="flex items-center justify-between">
+                    <div key={item._id} className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                           {item.image ? (
@@ -174,14 +166,14 @@ export default function Navbar() {
 
                       <div className="flex items-center gap-3 bg-gray-100 px-3 py-2 rounded">
                         <button
-                          onClick={() => updateQuantity(item.id, -1)}
+                          onClick={() => handleUpdateQuantity(item._id, item.quantity, -1)}
                           className="text-gray-500 hover:text-orange-500 w-4 h-4 flex items-center justify-center"
                         >
                           <Minus size={12} />
                         </button>
                         <span className="font-bold text-sm w-4 text-center text-black">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.id, 1)}
+                          onClick={() => handleUpdateQuantity(item._id, item.quantity, 1)}
                           className="text-gray-500 hover:text-orange-500 w-4 h-4 flex items-center justify-center"
                         >
                           <Plus size={12} />
