@@ -26,9 +26,10 @@ body {
 }
 
 .hero{
-  background-image: url('/assets/Bitmap.png');
+  background-image: url('/assets/home/desktop/image-hero.jpg');
   background-repeat: no-repeat;
   background-position: top;
   height: 100vh;
+
   background-size: cover;
 }

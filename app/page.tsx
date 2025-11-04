@@ -53,11 +53,12 @@ export default function AudiophileSite(): React.ReactElement {
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-orange-500 rounded-lg overflow-hidden grid md:grid-cols-2 gap-12 items-center p-12">
-            <div className="flex justify-center">
+            <div className="flex relative top-18 justify-center">
               <img 
-                src="/assets/image-removebg-preview(38)-1.png" 
+                src="/assets/home/desktop/image-speaker-zx9.png" 
                 alt="ZX9 Speaker"
-                className="w-full h-100 top-25 max-w-xs object-contain"
+                height={500}
+                className="w-full  h-ull max-w-xs object-contain"
               />
             </div>
             <div className="text-white">
@@ -82,7 +83,7 @@ export default function AudiophileSite(): React.ReactElement {
         <div className="max-w-7xl mx-auto">
           <div className="bg-gray-200 rounded-lg overflow-hidden relative h-80">
             <img 
-              src="/assets/Bitmap (20).png" 
+              src="/assets/home/desktop/image-speaker-zx7.jpg" 
               alt="ZX7 Speaker"
               className="w-full h-full object-cover"
             />
@@ -105,7 +106,7 @@ export default function AudiophileSite(): React.ReactElement {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <div className="bg-gray-200 rounded-lg overflow-hidden h-80">
             <img 
-              src="/assets/Group 12.jpg" 
+              src="/assets/home/desktop/image-earphones-yx1.jpg" 
               alt="YX1 Earphones"
               className="w-full h-full object-cover"
             />

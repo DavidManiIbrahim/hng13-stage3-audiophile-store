@@ -11,11 +11,11 @@ interface CategoryItem {
 const Category = (): React.ReactElement => {
   return (
     <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto text-bg-dark object-fit-contain grid md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto  text-bg-dark object-fit-contain grid md:grid-cols-3 gap-8">
           {[
-            { name: 'HEADPHONES', img: '/assets/image-removebg-preview(41)-1.png',href:'/pages/headphones' },
-            { name: 'SPEAKERS', img: '/assets/image-removebg-preview(38).png',href:'/pages/speakers' },
-            { name: 'EARPHONES', img: '/assets/image-removebg-preview(42).png',href:'/pages/earphones' }
+            { name: 'HEADPHONES', img: '/assets/shared/desktop/image-category-thumbnail-headphones.png',href:'/pages/headphones' },
+            { name: 'SPEAKERS', img: '/assets/shared/desktop/image-category-thumbnail-speakers.png',href:'/pages/speakers' },
+            { name: 'EARPHONES', img: '/assets/shared/desktop/image-category-thumbnail-earphones.png',href:'/pages/earphones' }
           ].map((category, idx) => (
             <div key={idx} className="bg-white   p-8 text-center hover:shadow-lg transition group">
               <img 

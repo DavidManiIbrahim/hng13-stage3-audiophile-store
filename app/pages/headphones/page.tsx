@@ -41,7 +41,7 @@ export default function HeadphonesPage(): React.ReactElement {
     },
     {
       id: 2,
-      image: "/assets/image-removebg-preview(41).png",
+      image: "/assets/shared/desktop/image-category-thumbnail-headphones.png",
       title: "XX99 MARK I HEADPHONES",
       description:
         "As the gold standard for headphones, the classic XX99 Mark I offers detailed and accurate sound reproduction for audiophiles, mixing engineers, and music enthusiasts alike.",

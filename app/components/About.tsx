@@ -15,7 +15,7 @@ const About: React.FC = () => {
         </div>
         <div className="flex justify-center">
           <img 
-            src="/assets/Bitmap-2.png" 
+            src="/assets/man.png" 
             alt="Person with headphones"
             className="w-full max-w-lg rounded-lg object-cover"
           />

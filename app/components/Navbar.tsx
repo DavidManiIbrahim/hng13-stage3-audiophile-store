@@ -11,10 +11,10 @@ export default function Navbar(): React.ReactElement {
           audiophile
         </Link>
         <ul className="hidden md:flex  gap-8 text-sm uppercase tracking-widest">
-          <li><Link href="/" className="hover:text-orange-600">Home</Link></li>
-          <li><Link href="/pages/headphones" className="hover:text-orange-600">Headphones</Link></li>
-          <li><Link href="/pages/speakers" className="hover:text-orange-600">Speakers</Link></li>
-          <li><Link href="/pages/earphone" className="hover:text-orange-600">Earphones</Link></li>
+          <li><Link href="/" className="hover:text-orange-600 cursor-pointer">Home</Link></li>
+          <li><Link href="/pages/headphones" className="hover:text-orange-600 cursor-pointer">Headphones</Link></li>
+          <li><Link href="/pages/speakers" className="hover:text-orange-600 cursor-pointer">Speakers</Link></li>
+          <li><Link href="/pages/earphone" className="hover:text-orange-600 cursor-pointer">Earphones</Link></li>
         </ul>
         {/* <Link href="/components/"> */}
         <ShoppingCart size={22} className="cursor-pointer hover:text-orange-500" />
