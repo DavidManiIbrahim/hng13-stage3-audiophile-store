@@ -16,9 +16,9 @@ export default function Navbar(): React.ReactElement {
           <li><Link href="/pages/speakers" className="hover:text-orange-600 cursor-pointer">Speakers</Link></li>
           <li><Link href="/pages/earphone" className="hover:text-orange-600 cursor-pointer">Earphones</Link></li>
         </ul>
-        {/* <Link href="/components/"> */}
+        <Link href="/components/cart">
         <ShoppingCart size={22} className="cursor-pointer hover:text-orange-500" />
-        {/* </Link> */}
+        </Link>
       </div>
     </nav>
   );

@@ -1,11 +1,12 @@
 "use client"
 import React, { useState } from 'react';
+import Link from 'next/link'
 import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
 import Nav from '@/app/components/Navbar'
 import Footer from '@/app/components/Footer';
 import Category from '@/app/components/category';
 import About from '@/app/components/About';
-import Link from 'next/link'
+import Intrested from '@/app/components/intrested';
 
 
 
@@ -39,7 +40,7 @@ export default function AudiophileZX9SpeakerPage() {
           {/* Product Image */}
           <div className="bg-gray-100 rounded-lg flex items-center justify-center p-12 lg:p-20">
             <img 
-              src="/assets/image-removebg-preview(38)-1.png" 
+              src="/assets/product-zx9-speaker/desktop/image-product.jpg" 
               alt="ZX9 Speaker"
               className="w-full max-w-sm object-contain"
             />
@@ -146,56 +147,31 @@ export default function AudiophileZX9SpeakerPage() {
             <div className="lg:col-span-2 space-y-6 lg:space-y-8">
               <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
                 <img 
-                  src="/assets/Bitmap (14).png" 
+                  src="/assets/product-zx9-speaker/desktop/image-gallery-1.jpg" 
                   alt="Speaker close-up"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
                 <img 
-                  src="/assets/Bitmap (12).png" 
+                  src="/assets/product-zx9-speaker/desktop/image-gallery-2.jpg" 
                   alt="Room setup"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
             <div className="lg:col-span-3 bg-gray-100 rounded-lg overflow-hidden aspect-[4/3] lg:aspect-auto">
               <img 
-                src="/assets/Bitmap (11).png" 
+                src="/assets/product-zx9-speaker/desktop/image-gallery-3.jpg" 
                 alt="Speaker pair"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
         </section>
 
-        {/* You May Also Like */}
-        <section className="py-16 mb-20">
-          <h2 className="text-3xl font-bold text-center mb-16 tracking-wider uppercase">
-            You May Also Like
-          </h2>
-          <div className="grid md:grid-cols-3 gap-12 lg:gap-8">
-            {[
-              { name: 'ZX7 Speaker', img: '/assets/image-removebg-preview(49).png' },
-              { name: 'XX99 Mark I', img: '/assets/image-removebg-preview(41).png' },
-              { name: 'XX59', img: '/assets/image-removebg-preview(48).png' }
-            ].map((product, i) => (
-              <div key={i} className="text-center space-y-8">
-                <div className="bg-gray-100 rounded-lg p-12 flex items-center justify-center aspect-square">
-                  <img 
-                    src={product.img} 
-                    alt={product.name} 
-                    className="w-full max-w-[200px] object-contain"
-                  />
-                </div>
-                <h3 className="font-bold tracking-widest text-2xl uppercase">{product.name}</h3>
-                <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-8 py-4 font-bold text-xs tracking-widest uppercase transition-colors">
-                  See Product
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Intrested */}
+       <Intrested />
 
         {/* Categories */}
         <Category />

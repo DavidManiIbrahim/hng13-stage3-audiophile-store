@@ -4,6 +4,7 @@ import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
 import Navbar from '@/app/components/Navbar';
 import Category from '@/app/components/category';
 import About from '@/app/components/About';
+import Intrested from '@/app/components/intrested';
 
 export default function AudiophileXX99MarkIPage() {
   const [quantity, setQuantity] = useState(1);
@@ -30,7 +31,7 @@ export default function AudiophileXX99MarkIPage() {
           {/* Product Image */}
           <div className="bg-gray-100 rounded-lg flex items-center justify-center p-12 lg:p-20">
             <img 
-              src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&h=800&fit=crop&q=80" 
+              src="/assets/shared/desktop/image-xx99-mark-one-headphones.jpg" 
               alt="XX99 Mark I Headphones"
               className="w-full max-w-sm object-contain"
             />
@@ -77,7 +78,7 @@ export default function AudiophileXX99MarkIPage() {
           </div>
         </section>
 
-        {/* Features and In The Box */}
+        
         <section className="grid lg:grid-cols-5 gap-16 lg:gap-24 py-16 mb-20">
           {/* Features */}
           <div className="lg:col-span-3">
@@ -102,7 +103,7 @@ export default function AudiophileXX99MarkIPage() {
             </div>
           </div>
 
-          {/* In The Box */}
+         
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold mb-8 tracking-wider uppercase">In the Box</h2>
             <div className="space-y-3">
@@ -132,14 +133,14 @@ export default function AudiophileXX99MarkIPage() {
             <div className="lg:col-span-2 space-y-6 lg:space-y-8">
               <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
                 <img 
-                  src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=450&fit=crop&q=80" 
+                  src="/assets/product-xx99-mark-one-headphones/desktop/image-gallery-1.jpg" 
                   alt="Studio microphone"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/3]">
                 <img 
-                  src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&h=450&fit=crop&q=80" 
+                  src="/assets/product-xx99-mark-one-headphones/desktop/image-gallery-2.jpg" 
                   alt="Headphones on desk"
                   className="w-full h-full object-cover"
                 />
@@ -147,7 +148,7 @@ export default function AudiophileXX99MarkIPage() {
             </div>
             <div className="lg:col-span-3 bg-gray-100 rounded-lg overflow-hidden aspect-[4/3] lg:aspect-auto">
               <img 
-                src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&h=1000&fit=crop&q=80" 
+                src="/assets/product-xx99-mark-one-headphones/desktop/image-gallery-3.jpg" 
                 alt="XX99 Mark I detail"
                 className="w-full h-full object-cover"
               />
@@ -155,33 +156,8 @@ export default function AudiophileXX99MarkIPage() {
           </div>
         </section>
 
-        {/* You May Also Like */}
-        <section className="py-16 mb-20">
-          <h2 className="text-3xl font-bold text-center mb-16 tracking-wider uppercase">
-            You May Also Like
-          </h2>
-          <div className="grid md:grid-cols-3 gap-12 lg:gap-8">
-            {[
-              { name: 'XX99 Mark II', img: 'https://images.unsplash.com/photo-1545127398-14699f92334b?w=400&h=400&fit=crop&q=80' },
-              { name: 'XX59', img: 'https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=400&h=400&fit=crop&q=80' },
-              { name: 'ZX9 Speaker', img: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop&q=80' }
-            ].map((product, i) => (
-              <div key={i} className="text-center space-y-8">
-                <div className="bg-gray-100 rounded-lg p-12 flex items-center justify-center aspect-square">
-                  <img 
-                    src={product.img} 
-                    alt={product.name} 
-                    className="w-full max-w-[200px] object-contain"
-                  />
-                </div>
-                <h3 className="font-bold tracking-widest text-2xl uppercase">{product.name}</h3>
-                <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-8 py-4 font-bold text-xs tracking-widest uppercase transition-colors">
-                  See Product
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Intrested */}
+       <Intrested />
 
         {/* Categories */}
         <Category />

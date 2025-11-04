@@ -1,4 +1,6 @@
+"use client"
 import { useState } from 'react';
+import Link from "next/link"
 import { X, ShoppingCart, Plus, Minus } from 'lucide-react';
 
 export default function CartModal() {
@@ -9,21 +11,21 @@ export default function CartModal() {
       name: 'XX99 MK II',
       price: 2999,
       quantity: 1,
-      image: '🎧'
+      image: '/assets/image-removebg-preview(47).png'
     },
     {
       id: 2,
       name: 'XX59',
       price: 899,
       quantity: 2,
-      image: '🎧'
+      // image: '/assets/image-removebg-preview(47).png'
     },
     {
       id: 3,
       name: 'YX1',
       price: 599,
       quantity: 1,
-      image: '🔵'
+      // image: '/assets/image-removebg-preview(47).png'
     }
   ]);
 
@@ -98,9 +100,11 @@ export default function CartModal() {
             <span className="text-lg font-bold">$ {total.toLocaleString()}</span>
           </div>
 
-          <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded text-sm tracking-wider transition-colors">
+            <Link href='/components/checkout'>
+          <button className="w-full bg-orange-500 cursor-pointer hover:bg-orange-600 text-white font-bold py-4 rounded text-sm tracking-wider transition-colors">
             CHECKOUT
           </button>
+            </Link>
         </div>
       </div>
     </div>

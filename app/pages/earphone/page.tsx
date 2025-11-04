@@ -31,7 +31,7 @@ export default function EARPHONESPage(): React.ReactElement {
   const products = [
     {
       id: 1,
-      image: "/assets/image-removebg-preview(47).png",
+      image: "/assets/product-yx1-earphones/desktop/image-product.jpg",
       newProduct: true,
       title: "YX1 WIRELESS EARPHONES",
       description:

@@ -6,6 +6,7 @@ import Nav from "@/app/components/Navbar"
 import Footer from '@/app/components/Footer';
 import About from '@/app/components/About';
 import Category from '@/app/components/category';
+import Intrested from '@/app/components/intrested'
 
 export default function AudiophileProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -20,7 +21,7 @@ export default function AudiophileProductPage() {
 
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-6">
-        <ChevronLeft size={16} className="ml-1" />
+      
         <Link href="/" className="text-gray-400 text-sm hover:text-gray-600">Go Back</Link>
       </div>
 
@@ -30,7 +31,7 @@ export default function AudiophileProductPage() {
           {/* Product Image */}
           <div className="bg-gray-100 rounded-lg p-12 flex items-center justify-center">
             <img 
-              src="/assets/image-removebg-preview(47).png" 
+              src="/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg" 
               alt="XX99 MARK II Headphones"
               className="w-full max-w-md object-contain"
             />
@@ -102,7 +103,7 @@ export default function AudiophileProductPage() {
             </div>
           </div>
 
-          {/* In The Box */}
+         
           <div>
             <h2 className="text-3xl text-black font-bold mb-6 tracking-wider">IN THE BOX</h2>
             <div className="space-y-3">
@@ -136,18 +137,18 @@ export default function AudiophileProductPage() {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-4">
             <img 
-              src="/assets/Bitmap (3).png" 
+              src="/assets/product-xx99-mark-two-headphones/desktop/image-gallery-1.jpg" 
               alt="Gallery 1"
               className="w-full rounded-lg object-cover h-75"
             />
             <img 
-              src="/assets/Bitmap (2).png" 
+              src="/assets/product-xx99-mark-two-headphones/desktop/image-gallery-2.jpg" 
               alt="Gallery 2"
               className="w-full rounded-lg object-cover h-75"
             />
           </div>
           <img 
-            src="/assets/Bitmap (1).png" 
+            src="/assets/product-xx99-mark-two-headphones/desktop/image-gallery-3.jpg" 
             alt="Gallery 3"
             className="w-full rounded-lg object-cover h-full"
           />
@@ -155,26 +156,8 @@ export default function AudiophileProductPage() {
       </section>
 
      
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl text-black font-bold text-center mb-12 tracking-wider">YOU MAY ALSO LIKE</h2>
-        <div className="grid text-black md:grid-cols-3 gap-8">
-          {[
-            { name: 'XX99 MARK I', img: '/assets/image-removebg-preview(41)-1.png' },
-            { name: 'XX59', img: '/assets/image-removebg-preview(48).png' },
-            { name: 'ZX9 SPEAKER', img: '/assets/image-removebg-preview(38)-1.png' }
-          ].map((product, i) => (
-            <div key={i} className="text-center space-y-4">
-              <div className="bg-gray-100 rounded-lg p-8">
-                <img src={product.img} alt={product.name} className="w-full object-contain h-48" />
-              </div>
-              <h3 className="font-bold tracking-wider">{product.name}</h3>
-              <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-6 py-3 font-bold tracking-wider transition">
-                SEE PRODUCT
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* You may also like */}
+      <Intrested />
 
       {/* Categories */}
       <Category />
