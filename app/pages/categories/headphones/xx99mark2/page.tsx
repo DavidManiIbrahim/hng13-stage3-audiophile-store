@@ -1,7 +1,11 @@
 "use client"
 import React, { useState } from 'react';
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 import { ShoppingCart, Plus, Minus, ChevronLeft } from 'lucide-react';
+import { useUser } from "@clerk/nextjs";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import Nav from "@/app/components/Navbar"
 import Footer from '@/app/components/Footer';
 import About from '@/app/components/About';
@@ -10,9 +14,49 @@ import Intrested from '@/app/components/intrested'
 
 export default function AudiophileProductPage() {
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const router = useRouter();
+
+  const { user } = useUser();
+  const userId = user?.id || "anonymous";
+
+  // Get product from Convex
+  const product = useQuery(api.products.getByName, { name: "XX99 Mark II Headphones" });
+  
+  // Add to cart mutation
+  const addToCart = useMutation(api.cart.addToCart);
 
   const incrementQuantity = () => setQuantity(q => q + 1);
-  const decrementQuantity = () => setQuantity(q =>  q - 1);
+  const decrementQuantity = () => setQuantity(q => q > 1 ? q - 1 : 1);
+
+  const handleAddToCart = async () => {
+    if (!product?._id) {
+      alert("Product not found. Please try again.");
+      return;
+    }
+
+    setIsAdding(true);
+    try {
+      await addToCart({
+        userId,
+        productId: product._id,
+        quantity,
+      });
+      
+      // Show success feedback
+      setShowFeedback(true);
+      setQuantity(1); // Reset quantity after adding
+      
+      // Hide feedback after 2 seconds
+      setTimeout(() => setShowFeedback(false), 2000);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add item to cart. Please try again.");
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -21,8 +65,12 @@ export default function AudiophileProductPage() {
 
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-6">
-      
-        <Link href="/" className="text-gray-400 text-sm hover:text-gray-600">Go Back</Link>
+        <button 
+          onClick={() => router.back()}
+          className="text-gray-400 text-sm hover:text-gray-600 cursor-pointer"
+        >
+          Go Back
+        </button>
       </div>
 
       {/* Product Section */}
@@ -51,29 +99,36 @@ export default function AudiophileProductPage() {
             <p className="text-2xl text-black font-bold">$ 2,999</p>
             
             {/* Quantity and Add to Cart */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <div className="flex items-center bg-gray-100">
-                <Link href="">
                 <button 
                   onClick={decrementQuantity}
                   className="px-4 cursor-pointer text-black py-3 hover:text-orange-400 transition"
+                  disabled={isAdding}
                   >
                   <Minus size={16} />
                 </button>
-                  </Link>
                 <span className="px-6 py-3 text-black font-bold">{quantity}</span>
                 <button 
                   onClick={incrementQuantity}
                   className="px-4 cursor-pointer py-3 text-black hover:text-orange-400 transition"
+                  disabled={isAdding}
                 >
                   <Plus size={16} />
                 </button>
               </div>
-              <Link href="/components/cart">
-              <button className="bg-orange-400 cursor-pointer hover:bg-orange-500 text-white px-8 py-3 font-bold tracking-wider transition">
-                ADD TO CART
+              <button 
+                onClick={handleAddToCart}
+                disabled={isAdding || product === undefined}
+                className="bg-orange-400 h-12 cursor-pointer hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-3 font-bold tracking-wider transition relative"
+              >
+                {isAdding ? "Adding..." : product === undefined ? "Loading..." : "ADD TO CART"}
               </button>
-              </Link>
+              {showFeedback && (
+                <span className="text-green-600 font-semibold animate-fade-in">
+                  ✓ Added to cart!
+                </span>
+              )}
             </div>
           </div>
         </div>

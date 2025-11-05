@@ -18,3 +18,15 @@ export const getByCategory = query({
       .collect();
   },
 });
+
+// Get product by name
+export const getByName = query({
+  args: { name: v.string() },
+  handler: async (ctx, args) => {
+    const product = await ctx.db
+      .query("products")
+      .filter((q) => q.eq(q.field("name"), args.name))
+      .first();
+    return product;
+  },
+});

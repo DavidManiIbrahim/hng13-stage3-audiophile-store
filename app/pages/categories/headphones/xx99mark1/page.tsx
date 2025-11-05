@@ -1,6 +1,10 @@
 "use client"
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
+import { useUser } from "@clerk/nextjs";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import Navbar from '@/app/components/Navbar';
 import Category from '@/app/components/category';
 import About from '@/app/components/About';
@@ -8,9 +12,49 @@ import Intrested from '@/app/components/intrested';
 
 export default function AudiophileXX99MarkIPage() {
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const router = useRouter();
+
+  const { user } = useUser();
+  const userId = user?.id || "anonymous";
+
+  // Get product from Convex
+  const product = useQuery(api.products.getByName, { name: "XX99 Mark I Headphones" });
+  
+  // Add to cart mutation
+  const addToCart = useMutation(api.cart.addToCart);
 
   const incrementQuantity = () => setQuantity(q => q + 1);
   const decrementQuantity = () => setQuantity(q => Math.max(1, q - 1));
+
+  const handleAddToCart = async () => {
+    if (!product?._id) {
+      alert("Product not found. Please try again.");
+      return;
+    }
+
+    setIsAdding(true);
+    try {
+      await addToCart({
+        userId,
+        productId: product._id,
+        quantity,
+      });
+      
+      // Show success feedback
+      setShowFeedback(true);
+      setQuantity(1); // Reset quantity after adding
+      
+      // Hide feedback after 2 seconds
+      setTimeout(() => setShowFeedback(false), 2000);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add item to cart. Please try again.");
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div className="min-h-screen text-black bg-white">
@@ -21,7 +65,10 @@ export default function AudiophileXX99MarkIPage() {
       <main className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Breadcrumb */}
         <div className="py-8">
-          <button className="text-gray-500 text-sm hover:text-gray-700 transition-colors">
+          <button 
+            onClick={() => router.back()}
+            className="text-gray-500 text-sm hover:text-gray-700 transition-colors cursor-pointer"
+          >
             Go Back
           </button>
         </div>
@@ -51,12 +98,13 @@ export default function AudiophileXX99MarkIPage() {
             <p className="text-lg font-bold tracking-wider">$ 1,750</p>
             
             {/* Quantity and Add to Cart */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <div className="flex items-center bg-gray-100">
                 <button 
                   onClick={decrementQuantity}
-                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors"
+                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors disabled:opacity-50"
                   aria-label="Decrease quantity"
+                  disabled={isAdding}
                 >
                   <Minus size={14} strokeWidth={3} />
                 </button>
@@ -65,15 +113,25 @@ export default function AudiophileXX99MarkIPage() {
                 </span>
                 <button 
                   onClick={incrementQuantity}
-                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors"
+                  className="px-5 py-4 text-gray-500 hover:text-orange-400 transition-colors disabled:opacity-50"
                   aria-label="Increase quantity"
+                  disabled={isAdding}
                 >
                   <Plus size={14} strokeWidth={3} />
                 </button>
               </div>
-              <button className="bg-orange-400 hover:bg-orange-500 text-white px-8 font-bold text-xs tracking-widest uppercase transition-colors">
-                Add to Cart
+              <button 
+                onClick={handleAddToCart}
+                disabled={isAdding || product === undefined}
+                className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed text-white h-12 px-10 font-bold text-xs tracking-widest uppercase transition-colors"
+              >
+                {isAdding ? "Adding..." : product === undefined ? "Loading..." : "Add to Cart"}
               </button>
+              {showFeedback && (
+                <span className="text-green-600 font-semibold animate-fade-in">
+                  ✓ Added to cart!
+                </span>
+              )}
             </div>
           </div>
         </section>

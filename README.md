@@ -115,9 +115,30 @@ pnpm install
 bun install
 ```
 
-### 3. Configure Environment Variables
+### 3. Set Up Convex Backend
 
-Create a `.env.local` file in the root directory:
+Initialize and configure Convex:
+
+```bash
+# Login to Convex (if not already logged in)
+npx convex dev
+
+# This will:
+# - Create a Convex project (if needed)
+# - Generate your Convex URL
+# - Create/update .env.local with NEXT_PUBLIC_CONVEX_URL
+# - Start the Convex development server
+```
+
+**Note**: If you already have a Convex project, the URL will be automatically added to your `.env.local` file. Otherwise, you'll need to add it manually:
+
+```bash
+NEXT_PUBLIC_CONVEX_URL=https://your-project.convex.cloud
+```
+
+### 4. Configure Environment Variables
+
+Create a `.env.local` file in the root directory (if not already created by Convex):
 
 ```bash
 cp .env.example .env.local
@@ -125,9 +146,15 @@ cp .env.example .env.local
 
 See [Environment Variables](#environment-variables) section for required variables.
 
-### 4. Run Development Server
+### 5. Run Development Server
+
+In separate terminals, run:
 
 ```bash
+# Terminal 1: Start Convex dev server (if not already running)
+npx convex dev
+
+# Terminal 2: Start Next.js dev server
 npm run dev
 ```
 
@@ -141,6 +168,14 @@ Create a `.env.local` file with the following variables:
 # App Configuration
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_APP_NAME="Audiophile"
+
+# Convex Backend (Required)
+# Get your Convex URL by running 'npx convex dev' or from your Convex dashboard
+NEXT_PUBLIC_CONVEX_URL=https://your-project.convex.cloud
+
+# Clerk Authentication (if applicable)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+CLERK_SECRET_KEY=sk_test_xxxxx
 
 # API Configuration (if applicable)
 NEXT_PUBLIC_API_URL=https://api.example.com
