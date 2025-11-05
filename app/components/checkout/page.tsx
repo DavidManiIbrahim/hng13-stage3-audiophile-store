@@ -206,8 +206,8 @@ export default function CheckoutPage(): React.ReactElement {
                     <input 
                       type="radio" 
                       name="payment"
-                      value="emoney"
-                      checked={paymentMethod === 'emoney'}
+                      value="e-money"
+                      checked={paymentMethod === 'e-money'}
                       onChange={(e) => setPaymentMethod(e.target.value)}
                       className="mr-4"
                     />
