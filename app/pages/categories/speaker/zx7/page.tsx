@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
 import { useUser } from "@clerk/nextjs";
@@ -23,31 +23,78 @@ export default function Audiophilezx7SpeakerPage() {
   // Get product from Convex
   const product = useQuery(api.products.getByName, { name: "ZX7 Speaker" });
   
-  // Add to cart mutation
+  // Mutations
   const addToCart = useMutation(api.cart.addToCart);
+  const createOrGetProduct = useMutation(api.products.createOrGet);
+
+  // Ensure product exists in database
+  useEffect(() => {
+    if (product === null) {
+      createOrGetProduct({
+        name: "ZX7 Speaker",
+        price: 3500,
+        description: "Stream high quality sound wirelessly with minimal to no loss. The ZX7 speaker uses high-end audiophile components that represents the top of the line powered speakers for home or studio use.",
+        image: "/assets/product-zx7-speaker/desktop/image-product.jpg",
+        category: "speakers",
+      }).catch((error) => console.error("Error creating product:", error));
+    }
+  }, [product, createOrGetProduct]);
 
   const incrementQuantity = () => setQuantity(q => q + 1);
   const decrementQuantity = () => setQuantity(q => Math.max(1, q - 1));
 
   const handleAddToCart = async () => {
-    if (!product?._id) {
+    let productId = product?._id;
+
+    if (!productId) {
+      setIsAdding(true);
+      try {
+        productId = await createOrGetProduct({
+          name: "ZX7 Speaker",
+          price: 3500,
+          description: "Stream high quality sound wirelessly with minimal to no loss. The ZX7 speaker uses high-end audiophile components that represents the top of the line powered speakers for home or studio use.",
+          image: "/assets/product-zx7-speaker/desktop/image-product.jpg",
+          category: "speakers",
+        });
+      } catch (error) {
+        console.error("Error creating product:", error);
+        alert("Failed to initialize product. Please try again.");
+        setIsAdding(false);
+        return;
+      }
+    }
+
+    if (!productId) {
       alert("Product not found. Please try again.");
+      setIsAdding(false);
       return;
     }
 
-    setIsAdding(true);
     try {
       await addToCart({
         userId,
-        productId: product._id,
+        productId: productId,
         quantity,
       });
-      
-      // Show success feedback
+      // Fire-and-forget confirmation email
+      try {
+        const to = user?.primaryEmailAddress?.emailAddress;
+        if (to) {
+          await fetch("/api/email/sendCartConfirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to,
+              productName: product?.name || "ZX7 Speaker",
+              quantity,
+            }),
+          });
+        }
+      } catch (e) {
+        console.error("Email send failed:", e);
+      }
       setShowFeedback(true);
-      setQuantity(1); // Reset quantity after adding
-      
-      // Hide feedback after 2 seconds
+      setQuantity(1);
       setTimeout(() => setShowFeedback(false), 2000);
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -126,10 +173,10 @@ export default function Audiophilezx7SpeakerPage() {
               </div>
               <button 
                 onClick={handleAddToCart}
-                disabled={isAdding || product === undefined}
+                disabled={isAdding}
                 className="bg-orange-400 h-12 cursor-pointer hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 font-bold text-xs tracking-widest uppercase transition-colors"
               >
-                {isAdding ? "Adding..." : product === undefined ? "Loading..." : "Add to Cart"}
+                {isAdding ? "Adding..." : "Add to Cart"}
               </button>
               {showFeedback && (
                 <span className="text-green-600 font-semibold animate-fade-in">

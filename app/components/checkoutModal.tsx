@@ -3,35 +3,28 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, X, Minus, Plus } from 'lucide-react';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useUser } from "@clerk/nextjs";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function ProductWithCartModal(): React.ReactElement {
   const [showCart, setShowCart] = useState<boolean>(true);
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { id: 1, name: 'XX99 MK II', price: 2999, quantity: 1, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop' },
-    { id: 2, name: 'XX59', price: 899, quantity: 2, image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=100&h=100&fit=crop' },
-    { id: 3, name: 'YX1', price: 599, quantity: 1, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100&h=100&fit=crop' }
-  ]);
 
-  const updateQuantity = (id: number, change: number): void => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+  const { user } = useUser();
+  const userId = user?.id || "anonymous";
+
+  const cartItems = useQuery(api.cart.getCartItems, { userId }) || [];
+  const updateQuantity = useMutation(api.cart.updateQuantity);
+  const removeAllItems = useMutation(api.cart.removeAllItems);
+
+  const handleUpdateQuantity = (cartItemId: Id<'cartItems'>, currentQuantity: number, delta: number) => {
+    const next = Math.max(1, currentQuantity + delta);
+    updateQuantity({ cartItemId, quantity: next });
   };
 
   const removeAll = () => {
-    setCartItems([]);
+    removeAllItems({ userId });
   };
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -115,7 +108,7 @@ export default function ProductWithCartModal(): React.ReactElement {
 
             <div className="space-y-6 mb-6">
               {cartItems.map(item => (
-                <div key={item.id} className="flex items-center justify-between">
+                <div key={item._id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <img 
                       src={item.image}
@@ -130,14 +123,14 @@ export default function ProductWithCartModal(): React.ReactElement {
                   
                   <div className="flex items-center bg-gray-100">
                     <button 
-                      onClick={() => updateQuantity(item.id, -1)}
+                      onClick={() => handleUpdateQuantity(item._id, item.quantity, -1)}
                       className="px-3 py-2 hover:text-orange-500"
                     >
                       <Minus size={12} />
                     </button>
                     <span className="px-4 py-2 font-bold text-sm">{item.quantity}</span>
                     <button 
-                      onClick={() => updateQuantity(item.id, 1)}
+                      onClick={() => handleUpdateQuantity(item._id, item.quantity, 1)}
                       className="px-3 py-2 hover:text-orange-500"
                     >
                       <Plus size={12} />

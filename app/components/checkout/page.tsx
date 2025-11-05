@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import { useUser } from "@clerk/nextjs";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface FormData {
   name: string;
@@ -21,6 +24,7 @@ interface FormData {
 export default function CheckoutPage(): React.ReactElement {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'e-money'>('cash');
+  const [snapshotItems, setSnapshotItems] = useState<any[]>([]);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -33,19 +37,62 @@ export default function CheckoutPage(): React.ReactElement {
     eMoneyPin: ''
   });
 
-  const cartItems = [
-    { id: 1, name: 'XX99 MK II', price: 2999, quantity: 1, image: '/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg' },
-    { id: 2, name: 'XX59', price: 899, quantity: 2, image: '/assets/product-xx59-headphones/desktop/image-product.jpg' },
-    { id: 3, name: 'YX1', price: 599, quantity: 1, image: '/assets/product-yx1-earphones/desktop/image-product.jpg' }
-  ];
+  const { user } = useUser();
+  const userId = user?.id || "anonymous";
 
-  const total = 5396;
-  const shipping = 50;
-  const vat = 1079;
-  const grandTotal = 5446;
+  // Live cart from Convex
+  const cartItems = useQuery(api.cart.getCartItems, { userId }) || [];
+  const removeAllItems = useMutation(api.cart.removeAllItems);
 
-  const handleSubmit = (e) => {
+  // Derived totals
+  const { total, shipping, vat, grandTotal } = useMemo(() => {
+    const t = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const s = cartItems.length > 0 ? 50 : 0; // flat shipping
+    const v = Math.round(t * 0.2); // 20% VAT (included)
+    const g = t + s;
+    return { total: t, shipping: s, vat: v, grandTotal: g };
+  }, [cartItems]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // snapshot items for modal display
+    setSnapshotItems(cartItems);
+
+    // Build an order summary email using the form's email address
+    try {
+      const lines = cartItems.map((i) => `- ${i.name} x${i.quantity} — $ ${i.price.toLocaleString()}`).join("<br/>");
+      const html = `
+        <div style="font-family: Arial, Helvetica, sans-serif; line-height:1.6; color:#111;">
+          <h2 style="margin:0 0 12px;">Order confirmation</h2>
+          <p style="margin:0 0 8px;">Thanks for your order. Here is a summary:</p>
+          <div style="margin:12px 0;">${lines || 'No items'}</div>
+          <p style="margin:8px 0;">Total: <strong>$ ${total.toLocaleString()}</strong></p>
+          <p style="margin:8px 0;">Shipping: <strong>$ ${shipping.toLocaleString()}</strong></p>
+          <p style="margin:8px 0;">Grand Total: <strong>$ ${grandTotal.toLocaleString()}</strong></p>
+        </div>
+      `;
+
+      await fetch("/api/email/sendCartConfirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: formData.email,
+          subject: "Your Audiophile order confirmation",
+          html,
+        }),
+      });
+    } catch (err) {
+      console.error("Order email send failed:", err);
+    }
+
+    // Clear the cart in Convex regardless
+    try {
+      await removeAllItems({ userId });
+    } catch (err) {
+      console.error("Failed to clear cart:", err);
+    }
+
     setShowModal(true);
   };
 
@@ -220,7 +267,7 @@ export default function CheckoutPage(): React.ReactElement {
             
             <div className="space-y-4 mb-6">
               {cartItems.map(item => (
-                <div key={item.id} className="flex items-center justify-between">
+                <div key={item._id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <img 
                       src={item.image}
@@ -282,21 +329,27 @@ export default function CheckoutPage(): React.ReactElement {
 
             <div className="grid grid-cols-2 mb-6 rounded-lg overflow-hidden">
               <div className="bg-gray-100 p-6">
+                {snapshotItems.length > 0 ? (
+                  <>
                 <div className="flex items-center space-x-4 mb-4">
-                  <img 
-                    src={cartItems[0].image}
-                    alt={cartItems[0].name}
+                      <img 
+                        src={snapshotItems[0].image}
+                        alt={snapshotItems[0].name}
                     className="w-12 h-12 rounded"
                   />
                   <div>
-                    <h3 className="font-bold text-sm">{cartItems[0].name}</h3>
-                    <p className="text-gray-500 text-sm">$ {cartItems[0].price.toLocaleString()}</p>
+                        <h3 className="font-bold text-sm">{snapshotItems[0].name}</h3>
+                        <p className="text-gray-500 text-sm">$ {snapshotItems[0].price.toLocaleString()}</p>
                   </div>
-                  <span className="text-gray-500 text-sm">x{cartItems[0].quantity}</span>
+                      <span className="text-gray-500 text-sm">x{snapshotItems[0].quantity}</span>
                 </div>
                 <p className="text-center text-gray-500 text-sm border-t pt-4">
-                  and {cartItems.length - 1} other item(s)
+                      and {Math.max(0, snapshotItems.length - 1)} other item(s)
                 </p>
+                  </>
+                ) : (
+                  <p className="text-center text-gray-500 text-sm">No items</p>
+                )}
               </div>
               <div className="bg-black text-white p-6 flex flex-col justify-center">
                 <p className="text-gray-400 text-sm mb-2">GRAND TOTAL</p>

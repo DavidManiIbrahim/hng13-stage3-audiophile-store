@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, Plus, Minus, ChevronRight } from 'lucide-react';
 import { useUser } from "@clerk/nextjs";
@@ -22,25 +22,81 @@ export default function AudiophileYX1EarphonesPage() {
   // Get product from Convex
   const product = useQuery(api.products.getByName, { name: "YX1 Wireless Earphones" });
   
-  // Add to cart mutation
+  // Mutations
   const addToCart = useMutation(api.cart.addToCart);
+  const createOrGetProduct = useMutation(api.products.createOrGet);
+
+  // Ensure product exists in database
+  useEffect(() => {
+    if (product === null) {
+      // Product doesn't exist, create it
+      createOrGetProduct({
+        name: "YX1 Wireless Earphones",
+        price: 599,
+        description: "Tailor your listening experience with bespoke dynamic drivers from the new YX1 Wireless Earphones. Enjoy incredible high-fidelity sound even in noisy environments with its active noise cancellation feature.",
+        image: "/assets/product-yx1-earphones/desktop/image-product.jpg",
+        category: "earphones",
+      }).catch((error) => {
+        console.error("Error creating product:", error);
+      });
+    }
+  }, [product, createOrGetProduct]);
 
   const incrementQuantity = () => setQuantity(q => q + 1);
   const decrementQuantity = () => setQuantity(q => Math.max(1, q - 1));
 
   const handleAddToCart = async () => {
-    if (!product?._id) {
+    let productId = product?._id;
+
+    // If product doesn't exist, create it first
+    if (!productId) {
+      setIsAdding(true);
+      try {
+        productId = await createOrGetProduct({
+          name: "YX1 Wireless Earphones",
+          price: 599,
+          description: "Tailor your listening experience with bespoke dynamic drivers from the new YX1 Wireless Earphones. Enjoy incredible high-fidelity sound even in noisy environments with its active noise cancellation feature.",
+          image: "/assets/product-yx1-earphones/desktop/image-product.jpg",
+          category: "earphones",
+        });
+      } catch (error) {
+        console.error("Error creating product:", error);
+        alert("Failed to initialize product. Please try again.");
+        setIsAdding(false);
+        return;
+      }
+    }
+
+    if (!productId) {
       alert("Product not found. Please try again.");
+      setIsAdding(false);
       return;
     }
 
-    setIsAdding(true);
+    // Now add to cart
     try {
       await addToCart({
         userId,
-        productId: product._id,
+        productId: productId,
         quantity,
       });
+      // Fire-and-forget confirmation email
+      try {
+        const to = user?.primaryEmailAddress?.emailAddress;
+        if (to) {
+          await fetch("/api/email/sendCartConfirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to,
+              productName: product?.name || "YX1 Wireless Earphones",
+              quantity,
+            }),
+          });
+        }
+      } catch (e) {
+        console.error("Email send failed:", e);
+      }
       
       // Show success feedback
       setShowFeedback(true);
@@ -122,10 +178,10 @@ export default function AudiophileYX1EarphonesPage() {
               </div>
               <button 
                 onClick={handleAddToCart}
-                disabled={isAdding || product === undefined}
+                disabled={isAdding}
                 className="bg-orange-400 h-12 cursor-pointer hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 font-bold text-xs tracking-widest uppercase transition-colors"
               >
-                {isAdding ? "Adding..." : product === undefined ? "Loading..." : "Add to Cart"}
+                {isAdding ? "Adding..." : "Add to Cart"}
               </button>
               {showFeedback && (
                 <span className="text-green-600 font-semibold animate-fade-in">
